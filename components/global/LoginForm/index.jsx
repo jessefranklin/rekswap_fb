@@ -6,27 +6,36 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '@hooks/useAuth'
 
 const LoginForm = () => {
- const { register, errors, handleSubmit } = useForm();
- const [isLoading, setIsLoading] = useState(false);
+  const { register, errors, handleSubmit } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
- const auth = useAuth();
- const router = useRouter();
+  const auth = useAuth();
+  const router = useRouter();
  
-const onSubmit = (data) => {
-  setIsLoading(true);
-  setError(null);
-  return auth.signIn(data).then((response) => {
-   setIsLoading(false);
-   response.error ? setError(response.error) : router.push('/dashboard');
-  });
- };
+  const handleSuccessfulLogin = (res) => {
+    console.log('success',  res)
+    setIsLoading(false);
+    res.error ? setError(res.error) : router.push('/dashboard');
+  }
 
- const ssoFB = () => {
-  return auth.signInFB()
- }
+  const onSubmit = (data) => {
+    setIsLoading(true);
+    setError(null);
+    return auth.signIn(data).then((res) => {
+      handleSuccessfulLogin(res)
+    });
+  };
+
+  const ssoFB = () => {
+    setIsLoading(true);
+    setError(null);
+    return auth.signInFB()
+  }
 
  const ssoGoogle = () => {
+  setIsLoading(true);
+  setError(null);
   return auth.signInGoogle()
  }
 

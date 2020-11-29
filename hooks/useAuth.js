@@ -106,27 +106,20 @@ const useAuthProvider = () => {
     auth.signInWithPopup(provider).then(function(result) {
       setUser(result.user);
       getUserAdditionalData(user);
-      router.push('/dashboard');
-      console.log(result.user, result.credential.accessTokens)
       var token = result.credential.accessToken;
+      return result.user;
     }).catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      var email = error.email;
-      var credential = error.credential;
+      return error;
     });
   }
   const signInGoogle = () => {
     auth.signInWithPopup(provider).then(function(result) {
       setUser(result.user);
       getUserAdditionalData(user);
-      router.push('/dashboard');
       var token = result.credential.accessToken;
+      return result.user;
     }).catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      var email = error.email;
-      var credential = error.credential;
+      return error;
     });
   }
   
